@@ -1,0 +1,294 @@
+:root {
+  --blue: #6096ba;          /* the game's loading word */
+  --blue-deep: #2f5f84;
+  --ink: #ffffff;
+  --glass: rgba(255, 255, 255, 0.78);
+  --glass-hover: rgba(255, 255, 255, 0.92);
+  --shadow: 0 10px 30px rgba(32, 72, 110, 0.25);
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  min-height: 100svh;
+  background: #7fc4f5;
+  color: var(--ink);
+  font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ---------------------------------------------------------------- background */
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("assets/background-small.jpg") center 70% / cover no-repeat;
+}
+@media (min-width: 900px), (min-resolution: 2dppx) {
+  .bg { background-image: url("assets/background.jpg"); }
+}
+/* the same picture blurred, faded in while scrolling down to the announcements (main.js sets the opacity) */
+.bg-blur {
+  background: url("assets/background-blur.jpg") center 70% / cover no-repeat;
+  opacity: 0;
+  transform: scale(1.04);                /* the blurred edges stay off screen */
+  will-change: opacity;
+}
+.bg-blur::after { background: rgba(30, 70, 110, 0.18); }
+@media (min-width: 900px), (min-resolution: 2dppx) {
+  .bg-blur { background-image: url("assets/background-blur.jpg"); }
+}
+/* a soft light behind the words so they read on the sky */
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 40%, rgba(40, 90, 140, 0.28), transparent 70%),
+    linear-gradient(to bottom, rgba(30, 70, 110, 0.18), transparent 25%);
+}
+
+/* ---------------------------------------------------------------- language switch */
+
+.top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 18px 20px;
+  z-index: 2;
+}
+.lang {
+  display: flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px rgba(32, 72, 110, 0.18);
+}
+.lang button {
+  border: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--blue-deep);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+}
+.lang button.on {
+  background: var(--blue);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------- the middle */
+
+/* each page snaps into place when scrolling: the downloads, then the announcements */
+html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+.hero, .news { scroll-snap-align: start; }
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 16px 22vh;           /* sits a little above the middle, so the van and the lake stay in view */
+  text-align: center;
+}
+
+.name {
+  margin: 0;
+  font-family: "Quicksand", "Noto Sans SC", sans-serif;
+  font-weight: 700;
+  font-size: clamp(44px, 9vw, 112px);
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  text-shadow: 0 2px 0 rgba(47, 95, 132, 0.35), 0 6px 28px rgba(32, 72, 110, 0.45);
+}
+
+.intro {
+  max-width: 640px;
+  margin: 18px 0 0;
+  font-size: clamp(15px, 2.2vw, 18px);
+  line-height: 1.7;
+  text-shadow: 0 1px 10px rgba(32, 72, 110, 0.55);
+  white-space: pre-line;
+}
+
+.downloads {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.dl {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 250px;
+  padding: 14px 24px 14px 20px;
+  border-radius: 18px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  color: var(--blue-deep);
+  text-decoration: none;
+  text-align: left;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.dl:hover { background: var(--glass-hover); transform: translateY(-2px); }
+.dl:active { transform: translateY(0); }
+.dl.primary { background: var(--blue); color: #fff; }
+.dl.primary:hover { background: #5389ad; }
+.dl.off { opacity: 0.6; pointer-events: none; }
+
+.dl-icon { width: 32px; height: 32px; flex: none; fill: currentColor; }
+.dl-text { display: flex; flex-direction: column; gap: 2px; }
+.dl-title { font-size: 18px; font-weight: 700; }
+.dl-sub { font-size: 13px; opacity: 0.8; }
+
+.meta, .hint {
+  margin: 16px 0 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(30, 70, 110, 0.32);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.hint { margin-top: 8px; font-size: 13px; }
+.meta:empty, .hint:empty { display: none; }
+.meta a, .hint a { color: inherit; }
+
+/* ---------------------------------------------------------------- scroll down: announcements */
+
+.more {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  text-shadow: 0 1px 8px rgba(32, 72, 110, 0.7);
+}
+.more svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 4px rgba(32, 72, 110, 0.6));
+  animation: bob 1.8s ease-in-out infinite;
+}
+@keyframes bob { 50% { transform: translateY(5px); } }
+@media (prefers-reduced-motion: reduce) { .more svg { animation: none; } html { scroll-behavior: auto; } }
+
+.news {
+  min-height: 100svh;
+  padding: 80px 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.panel {
+  width: 100%;
+  max-width: 760px;
+  padding: 28px 32px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+  color: #2b3f52;
+}
+.panel h2 {
+  margin: 0 0 18px;
+  color: var(--blue-deep);
+  font-size: 24px;
+}
+
+.news-list { display: flex; flex-direction: column; gap: 10px; }
+.news-empty { margin: 8px 0; color: #6a7f92; }
+
+.notice {
+  border-radius: 14px;
+  background: rgba(96, 150, 186, 0.1);
+  overflow: hidden;
+}
+.notice summary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 18px;
+  cursor: pointer;
+  list-style: none;
+}
+.notice summary::-webkit-details-marker { display: none; }
+.notice summary::after {
+  content: "";
+  margin-left: auto;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue);
+  transform: translateY(-3px) rotate(45deg);
+  transition: transform 0.15s ease;
+}
+.notice[open] summary::after { transform: translateY(1px) rotate(-135deg); }
+.notice-tag {
+  flex: none;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 12px;
+}
+.notice-tag.Maintenance { background: #d98a3a; }
+.notice-tag.Update { background: #5aa36f; }
+.notice-title { font-weight: 700; color: var(--blue-deep); }
+.notice-date { flex: none; color: #7a8d9e; font-size: 13px; }
+.notice-body {
+  margin: 0;
+  padding: 0 18px 16px;
+  line-height: 1.75;
+  white-space: pre-line;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 40px 16px 24px;
+  text-align: center;
+  color: #fff;
+  font-size: 13px;
+  text-shadow: 0 1px 8px rgba(20, 50, 30, 0.8);
+}
+
+@media (max-width: 560px) {
+  .hero { justify-content: flex-start; padding: 16vh 16px 90px; }
+  .panel { padding: 22px 18px; }
+  .notice summary { flex-wrap: wrap; padding: 12px 14px; }
+  .notice-date { order: 3; width: 100%; }
+  .notice-body { padding: 0 14px 14px; }
+  .meta, .hint { border-radius: 14px; }
+  .downloads { flex-direction: column; width: 100%; max-width: 340px; }
+  .dl { min-width: 0; width: 100%; }
+}
