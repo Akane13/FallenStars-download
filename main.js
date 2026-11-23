@@ -10,13 +10,13 @@ const ANDROID_FILE = "FallenStars.apk";
 
 // The announcements: once the game server is online, put its address here (https, no "/" at the end, e.g. "https://api.example.com")
 // and the page shows the same announcements as the game. While it is empty, they come from notices.json in this repository.
-const SERVER_URL = "";
+const SERVER_URL = "https://api.fallenstars.fyi";
 
 // All the words on the page. Put the short introduction in "intro" (empty = not shown); a line break is "\n".
 const TEXT = {
   zh: {
     name: "落星",
-    intro: "",
+    intro: "从高空坠落的混乱开局，到香气四溢的餐车日常。当万物失去味觉与色彩，唯有爱与美食能重拾这片大地的烟火气。",
     winTitle: "Windows 电脑版",
     winSub: "启动器 · 自动更新",
     apkTitle: "Android 手机版",
@@ -29,8 +29,24 @@ const TEXT = {
     hintAndroid: "安卓安装时如提示「未知来源」，请在设置里允许本次安装",
     hintWindows: "解压后运行 FallenStars Launcher，之后的更新由启动器自动完成",
     hintIos: "暂不支持 iPhone / iPad",
-    newsCue: "公告",
+    newsCue: "安装说明 · 公告",
     newsTitle: "公告",
+    helpTitle: "安装说明",
+    helpAndroid: "Android 手机",
+    helpWindows: "Windows 电脑",
+    stepsAndroid: [
+      "点上方「Android 手机版」，下载 FallenStars.apk。",
+      "打开下载好的文件。如果提示不能安装未知来源的应用，点「设置」，为你的浏览器（或文件管理器）打开「允许安装未知应用」，再返回继续安装。",
+      "如果 Google Play 保护机制提示这是未知应用，点「更多详情」→「仍然安装」。",
+      "以后有新版本时，同样下载新的 APK 直接安装，会覆盖旧版本。",
+    ],
+    stepsWindows: [
+      "点上方「Windows 电脑版」，下载 FallenStars-Launcher.zip。",
+      "在压缩包上点右键 →「全部解压缩」，解压到一个文件夹（不要直接在压缩包里打开）。",
+      "运行文件夹里的 FallenStars Launcher。如果出现「Windows 已保护你的电脑」，点「更多信息」→「仍要运行」。",
+      "之后每次从启动器进入游戏，更新会自动下载。",
+    ],
+    helpNote: "游戏进度保存在服务器上：换设备时登录同一个账号即可继续。暂不支持 iPhone / iPad。",
     noNews: "暂无公告",
     newsFailed: "公告读取失败，请稍后再来看看",
     tags: { Notice: "公告", Maintenance: "维护", Update: "更新" },
@@ -38,7 +54,7 @@ const TEXT = {
   },
   en: {
     name: "Fallen Stars",
-    intro: "",
+    intro: "From a chaotic fall out of the sky to everyday life on a food truck full of good smells. When the world has lost its taste and its colour, only love and good food can bring the warmth of life back to this land.",
     winTitle: "Windows",
     winSub: "Launcher · auto-updates",
     apkTitle: "Android",
@@ -51,8 +67,24 @@ const TEXT = {
     hintAndroid: "If Android warns about unknown apps, allow this install in Settings",
     hintWindows: "Unzip and run FallenStars Launcher; it keeps the game up to date",
     hintIos: "iPhone / iPad are not supported yet",
-    newsCue: "News",
+    newsCue: "How to install · News",
     newsTitle: "News",
+    helpTitle: "How to install",
+    helpAndroid: "Android phone",
+    helpWindows: "Windows PC",
+    stepsAndroid: [
+      "Tap \"Android\" above to download FallenStars.apk.",
+      "Open the downloaded file. If Android says it cannot install apps from unknown sources, tap Settings, turn on \"Allow from this source\" for your browser (or file manager), then go back and install.",
+      "If Google Play Protect says the app is unknown, tap \"More details\" → \"Install anyway\".",
+      "When there is a new version, download the new APK and install it the same way; it replaces the old one.",
+    ],
+    stepsWindows: [
+      "Click \"Windows\" above to download FallenStars-Launcher.zip.",
+      "Right-click the zip → \"Extract All\" into a folder (do not run it from inside the zip).",
+      "Run FallenStars Launcher in that folder. If \"Windows protected your PC\" appears, click \"More info\" → \"Run anyway\".",
+      "From then on, start the game from the launcher: updates download by themselves.",
+    ],
+    helpNote: "Your progress is kept on the server: on another device, log in with the same account to carry on. iPhone / iPad are not supported yet.",
     noNews: "No announcements yet",
     newsFailed: "Could not load the announcements; please try again later",
     tags: { Notice: "News", Maintenance: "Maintenance", Update: "Update" },
@@ -133,7 +165,30 @@ function render() {
   document.getElementById("hint").textContent =
     device === "android" ? t.hintAndroid : device === "ios" ? t.hintIos : t.hintWindows;
 
+  renderHelp(t);
   renderNews(t);
+}
+
+// The install steps: this device's first.
+function renderHelp(t) {
+  const box = document.getElementById("help-cards");
+  box.replaceChildren();
+  const cards = [["android", t.helpAndroid, t.stepsAndroid], ["pc", t.helpWindows, t.stepsWindows]];
+  if (device !== "android") cards.reverse();
+  for (const [, title, steps] of cards) {
+    const card = document.createElement("div");
+    card.className = "help-card";
+    const h = document.createElement("h3");
+    h.textContent = title;
+    const ol = document.createElement("ol");
+    for (const s of steps) {
+      const li = document.createElement("li");
+      li.textContent = s;
+      ol.append(li);
+    }
+    card.append(h, ol);
+    box.append(card);
+  }
 }
 
 function renderNews(t) {
@@ -199,14 +254,30 @@ async function loadRelease() {
 }
 
 document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setLanguage(b.dataset.lang)));
+// The announcements of the game server and the ones in notices.json, together (the server may be off: then notices.json alone).
+async function fetchNotices(url) {
+  try {
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) return null;
+    return (await res.json()).notices || [];
+  } catch (_) {
+    return null;
+  }
+}
+
 async function loadNews() {
   try {
-    const url = SERVER_URL ? `${SERVER_URL}/api/system/status` : "notices.json";
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(res.status);
-    const data = await res.json();
+    const [server, local] = await Promise.all([SERVER_URL ? fetchNotices(`${SERVER_URL}/api/system/status`) : Promise.resolve(null), fetchNotices("notices.json")]);
+    if (server === null && local === null) throw new Error("no announcements could be read");
+    const seen = new Set();
+    const all = [...(server || []), ...(local || [])].filter((n) => {
+      const key = `${n.title}|${n.titleZh}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
     const now = Date.now() / 1000;
-    const list = (data.notices || [])
+    const list = all
       .filter((n) => !n.showAtUnix || n.showAtUnix <= now)
       .filter((n) => !n.endAtUnix || n.endAtUnix > now)
       .sort((a, b) => (b.showAtUnix || 0) - (a.showAtUnix || 0));

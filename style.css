@@ -90,7 +90,7 @@ body {
 
 /* each page snaps into place when scrolling: the downloads, then the announcements */
 html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
-.hero, .news { scroll-snap-align: start; }
+.hero, .help, .news { scroll-snap-align: start; }
 
 .hero {
   position: relative;
@@ -118,8 +118,13 @@ html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
   margin: 18px 0 0;
   font-size: clamp(15px, 2.2vw, 18px);
   line-height: 1.7;
-  text-shadow: 0 1px 10px rgba(32, 72, 110, 0.55);
+  text-shadow: 0 1px 6px rgba(20, 50, 80, 0.5);
   white-space: pre-line;
+  padding: 10px 20px;
+  border-radius: 16px;
+  background: rgba(30, 64, 96, 0.32);             /* readable over the bright clouds */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .downloads {
@@ -200,6 +205,26 @@ html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
 }
 @keyframes bob { 50% { transform: translateY(5px); } }
 @media (prefers-reduced-motion: reduce) { .more svg { animation: none; } html { scroll-behavior: auto; } }
+
+.help {
+  min-height: 100svh;
+  padding: 80px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.help .panel { max-width: 920px; }
+.help-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.help-card {
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(96, 150, 186, 0.25);
+}
+.help-card h3 { margin: 0 0 10px; color: var(--blue-deep); font-size: 18px; }
+.help-card ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 8px; line-height: 1.6; }
+.help-note { margin: 16px 0 0; color: #5b7184; font-size: 14px; line-height: 1.6; }
 
 .news {
   min-height: 100svh;
@@ -282,6 +307,9 @@ html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
   text-shadow: 0 1px 8px rgba(20, 50, 30, 0.8);
 }
 
+@media (max-width: 720px) {
+  .help-cards { grid-template-columns: 1fr; }
+}
 @media (max-width: 560px) {
   .hero { justify-content: flex-start; padding: 16vh 16px 90px; }
   .panel { padding: 22px 18px; }
