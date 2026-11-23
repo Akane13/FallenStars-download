@@ -3,10 +3,10 @@
     {
       "id": 1,
       "kind": "Notice",
-      "title": "Welcome to the Fallen Stars playtest!",
-      "titleZh": "《落星》测试开始啦！",
-      "body": "Thank you for helping to test Fallen Stars!\n· Download the Windows or Android version at the top of this page; the steps are under \"How to install\".\n· During the test, numbers and content may change at any time, and there will sometimes be maintenance. Maintenance is announced here and in the game beforehand.\n· Found a bug, got stuck, or felt something was too hard or too easy? Tell Akane directly; a screenshot helps a lot.\nHave fun!",
-      "bodyZh": "感谢你来帮忙测试《落星》！\n· 下载：在本页上方选择 Windows 或 Android 版本，安装步骤见「安装说明」。\n· 测试期间，数值和内容可能随时调整，偶尔也会维护。维护会提前在这里和游戏内公告。\n· 遇到 bug、卡关，或者觉得哪里太难、太简单，欢迎直接告诉 Akane，附上截图更好。\n祝你玩得开心！",
+      "title": "The Fallen Stars playtest is coming soon!",
+      "titleZh": "《落星》测试即将开始！",
+      "body": "Thank you for your interest in Fallen Stars!\n· The playtest starts soon. We will announce it here when the downloads open.\n· Then choose the Windows or Android version at the top of this page; the steps are under \"How to install\".\n· During the test, numbers and content may change at any time, and there will sometimes be maintenance. Maintenance is announced here and in the game beforehand.\n· Found a bug, got stuck, or felt something was too hard or too easy? Tell Akane directly; a screenshot helps a lot.\nStay tuned!",
+      "bodyZh": "感谢关注《落星》！\n· 测试即将开始，开放下载时会在这里通知。\n· 到时在本页上方选择 Windows 或 Android 版本，安装步骤见「安装说明」。\n· 测试期间，数值和内容可能随时调整，偶尔也会维护。维护会提前在这里和游戏内公告。\n· 遇到 bug、卡关，或者觉得哪里太难、太简单，欢迎直接告诉 Akane，附上截图更好。\n敬请期待！",
       "showAtUnix": 1795382163,
       "endAtUnix": 0
     }
