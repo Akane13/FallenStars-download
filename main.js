@@ -254,7 +254,7 @@ async function loadRelease() {
 }
 
 document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setLanguage(b.dataset.lang)));
-// The announcements of the game server and the ones in notices.json, together (the server may be off: then notices.json alone).
+// The announcements of the game server (the ones the game shows); when the server cannot be reached (the PC is off), the ones in notices.json.
 async function fetchNotices(url) {
   try {
     const res = await fetch(url, { cache: "no-store" });
@@ -269,13 +269,8 @@ async function loadNews() {
   try {
     const [server, local] = await Promise.all([SERVER_URL ? fetchNotices(`${SERVER_URL}/api/system/status`) : Promise.resolve(null), fetchNotices("notices.json")]);
     if (server === null && local === null) throw new Error("no announcements could be read");
-    const seen = new Set();
-    const all = [...(server || []), ...(local || [])].filter((n) => {
-      const key = `${n.title}|${n.titleZh}`;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
+    // the game server is the one source (the same announcements as in the game); notices.json is only for when the server cannot be reached
+    const all = server !== null ? server : local || [];
     const now = Date.now() / 1000;
     const list = all
       .filter((n) => !n.showAtUnix || n.showAtUnix <= now)
