@@ -24,9 +24,9 @@ FallenStars 的下载网站（GitHub Pages）和安装包（GitHub Releases）�
 `kind` 是 `Notice`（公告）/ `Maintenance`（维护）/ `Update`（更新）；`showAtUnix` 是发布时间（Unix 秒），最新的排最上面。英文空着时显示中文。
 
 ## 发新版
-1. 游戏里打包：Unity 菜单 FallenStars → Build → Android APK；`python tools/launcher/make_launcher_package.py`。
+1. 游戏里打包：Unity 菜单 FallenStars → Build → Android APK；电脑版安装程序 `python tools/launcher/make_installer.py`（只有启动器改了才要重做，游戏更新不用）。
 2. 在这个文件夹运行 `prepare-release.ps1`，两个文件会以固定名字放进 `release-files/`。
 3. GitHub → Releases → Draft a new release，填版本号（如 `v1.0.1`），把两个文件拖进去，Publish。
 4. 网站的按钮自动指向最新版本，不用改网页。
 
-文件名必须是 `FallenStars-Launcher.zip` 和 `FallenStars.apk`。
+文件名必须是 `FallenStars-Setup.exe` 和 `FallenStars.apk`。每个 Release 都要放这两个文件（网站按钮指向「最新」那个 Release）。

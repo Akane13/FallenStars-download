@@ -5,7 +5,7 @@ const OWNER = "Akane13";
 const REPO = "FallenStars-download";
 
 // Each release must have files with exactly these names (prepare-release.ps1 names them so).
-const WINDOWS_FILE = "FallenStars-Launcher.zip";
+const WINDOWS_FILE = "FallenStars-Setup.exe";
 const ANDROID_FILE = "FallenStars.apk";
 
 // The announcements: once the game server is online, put its address here (https, no "/" at the end, e.g. "https://api.example.com")
@@ -18,7 +18,7 @@ const TEXT = {
     name: "落星",
     intro: "从高空坠落的混乱开局，到香气四溢的餐车日常。当万物失去味觉与色彩，唯有爱与美食能重拾这片大地的烟火气。",
     winTitle: "Windows 电脑版",
-    winSub: "启动器 · 自动更新",
+    winSub: "安装程序 · 自动更新",
     apkTitle: "Android 手机版",
     apkSub: "APK 安装包",
     latest: (v, d) => `最新版本 ${v} · ${d}`,
@@ -27,7 +27,7 @@ const TEXT = {
     loading: "正在读取最新版本…",
     failed: "读取版本信息失败，按钮仍会下载最新版",
     hintAndroid: "安卓安装时如提示「未知来源」，请在设置里允许本次安装",
-    hintWindows: "解压后运行 FallenStars Launcher，之后的更新由启动器自动完成",
+    hintWindows: "运行安装程序后，从桌面的「落星」进入游戏，之后的更新会自动完成",
     hintIos: "暂不支持 iPhone / iPad",
     newsCue: "安装说明 · 公告",
     newsTitle: "公告",
@@ -41,10 +41,10 @@ const TEXT = {
       "以后有新版本时，同样下载新的 APK 直接安装，会覆盖旧版本。",
     ],
     stepsWindows: [
-      "点上方「Windows 电脑版」，下载 FallenStars-Launcher.zip。",
-      "在压缩包上点右键 →「全部解压缩」，解压到一个文件夹（不要直接在压缩包里打开）。",
-      "运行文件夹里的 FallenStars Launcher。如果出现「Windows 已保护你的电脑」，点「更多信息」→「仍要运行」。",
-      "之后每次从启动器进入游戏，更新会自动下载。",
+      "点上方「Windows 电脑版」，下载 FallenStars-Setup.exe。",
+      "运行下载好的安装程序。如果出现「Windows 已保护你的电脑」，点「更多信息」→「仍要运行」。不需要管理员权限。",
+      "安装完会打开启动器：点「下载并安装」，第一次会下载整个游戏。",
+      "之后从桌面或开始菜单的「落星 FallenStars」进入游戏，更新会自动下载。卸载在 Windows 的「设置 → 应用」里。",
     ],
     helpNote: "游戏进度保存在服务器上：换设备时登录同一个账号即可继续。暂不支持 iPhone / iPad。",
     noNews: "暂无公告",
@@ -56,7 +56,7 @@ const TEXT = {
     name: "Fallen Stars",
     intro: "From a chaotic fall out of the sky to everyday life on a food truck full of good smells. When the world has lost its taste and its colour, only love and good food can bring the warmth of life back to this land.",
     winTitle: "Windows",
-    winSub: "Launcher · auto-updates",
+    winSub: "Installer · auto-updates",
     apkTitle: "Android",
     apkSub: "APK installer",
     latest: (v, d) => `Latest ${v} · ${d}`,
@@ -65,7 +65,7 @@ const TEXT = {
     loading: "Checking the latest version…",
     failed: "Could not read the version; the buttons still download the latest",
     hintAndroid: "If Android warns about unknown apps, allow this install in Settings",
-    hintWindows: "Unzip and run FallenStars Launcher; it keeps the game up to date",
+    hintWindows: "Run the installer, then start the game from the desktop; updates come by themselves",
     hintIos: "iPhone / iPad are not supported yet",
     newsCue: "How to install · News",
     newsTitle: "News",
@@ -79,10 +79,10 @@ const TEXT = {
       "When there is a new version, download the new APK and install it the same way; it replaces the old one.",
     ],
     stepsWindows: [
-      "Click \"Windows\" above to download FallenStars-Launcher.zip.",
-      "Right-click the zip → \"Extract All\" into a folder (do not run it from inside the zip).",
-      "Run FallenStars Launcher in that folder. If \"Windows protected your PC\" appears, click \"More info\" → \"Run anyway\".",
-      "From then on, start the game from the launcher: updates download by themselves.",
+      "Click \"Windows\" above to download FallenStars-Setup.exe.",
+      "Run the installer. If \"Windows protected your PC\" appears, click \"More info\" → \"Run anyway\". No admin rights are needed.",
+      "The launcher opens when it is done: press \"Download and install\"; the first time downloads the whole game.",
+      "From then on, start \"Fallen Stars\" from the desktop or the Start menu: updates download by themselves. Uninstall it in Windows Settings → Apps.",
     ],
     helpNote: "Your progress is kept on the server: on another device, log in with the same account to carry on. iPhone / iPad are not supported yet.",
     noNews: "No announcements yet",
