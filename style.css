@@ -296,7 +296,10 @@ html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
   padding: 0 18px 16px;
   line-height: 1.75;
   white-space: pre-line;
+  overflow-wrap: anywhere;
 }
+.notice-body a { color: var(--blue-deep); font-weight: 600; text-decoration: underline; }
+.notice-body a:hover { color: var(--blue); }
 
 .footer {
   margin-top: auto;

@@ -222,13 +222,36 @@ function renderNews(t) {
 
     const body = document.createElement("p");
     body.className = "notice-body";
-    body.textContent = pick(n.body, n.bodyZh) || pick(n.title, n.titleZh);
+    appendLinked(body, pick(n.body, n.bodyZh) || pick(n.title, n.titleZh));
     item.append(head, body);
     box.append(item);
   });
 }
 
 // The Chinese text on the Chinese page, the English one on the English page; when one is empty, the other.
+// Writes text into el, turning web addresses into links that open in a new tab: "https://…", "www.…" and "forms.gle/…"-style addresses
+// (a name with a dot, then a "/" path). Built from text nodes and <a> elements, never innerHTML, so an announcement cannot inject markup.
+const LINK = /(https?:\/\/[A-Za-z0-9\-._~:/?#\[\]@!$&()*+,;=%]+|www\.[A-Za-z0-9\-._~:/?#\[\]@!$&()*+,;=%]+|\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}\/[A-Za-z0-9\-._~:/?#\[\]@!$&()*+,;=%]*)/gi;
+const TRAILING = /[.,;:!?。，；：！？、)\]]+$/;
+function appendLinked(el, text) {
+  let last = 0;
+  for (const m of text.matchAll(LINK)) {
+    let url = m[0];
+    const tail = url.match(TRAILING);
+    if (tail) url = url.slice(0, -tail[0].length);
+    if (!url) continue;
+    el.append(text.slice(last, m.index));
+    const a = document.createElement("a");
+    a.href = /^https?:\/\//i.test(url) ? url : "https://" + url;
+    a.textContent = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    el.append(a);
+    last = m.index + url.length;
+  }
+  el.append(text.slice(last));
+}
+
 function pick(en, zh) {
   return (lang === "zh" ? zh || en : en || zh) || "";
 }
