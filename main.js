@@ -43,6 +43,7 @@ const TEXT = {
     stepsWindows: [
       "点上方「Windows 电脑版」，下载 FallenStars-Setup.exe。",
       "运行下载好的安装程序。如果出现「Windows 已保护你的电脑」，点「更多信息」→「仍要运行」。不需要管理员权限。",
+      "如果出现「智能应用控制已阻止可能不安全的应用」（没有「仍要运行」按钮），这台电脑暂时无法安装电脑版，请改玩 Android 版。也可以在「Windows 安全中心 → 应用和浏览器控制 → 智能应用控制设置」里关闭它，但关闭后无法再重新开启（除非重装 Windows），请自行决定。",
       "安装完会打开启动器：点「下载并安装」，第一次会下载整个游戏。",
       "之后从桌面或开始菜单的「落星 FallenStars」进入游戏，更新会自动下载。卸载在 Windows 的「设置 → 应用」里。",
     ],
@@ -81,6 +82,7 @@ const TEXT = {
     stepsWindows: [
       "Click \"Windows\" above to download FallenStars-Setup.exe.",
       "Run the installer. If \"Windows protected your PC\" appears, click \"More info\" → \"Run anyway\". No admin rights are needed.",
+      "If \"Smart App Control blocked an app that may be unsafe\" appears (with no \"Run anyway\"), the PC version cannot be installed on this computer for now: please play the Android version. You can also turn it off in \"Windows Security → App & browser control → Smart App Control settings\", but it cannot be turned on again afterwards (short of reinstalling Windows), so decide for yourself.",
       "The launcher opens when it is done: press \"Download and install\"; the first time downloads the whole game.",
       "From then on, start \"Fallen Stars\" from the desktop or the Start menu: updates download by themselves. Uninstall it in Windows Settings → Apps.",
     ],
